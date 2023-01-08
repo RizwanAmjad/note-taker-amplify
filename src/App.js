@@ -12,7 +12,7 @@ function App() {
       graphqlOperation(createNote, { input: formState })
     )
     if (errors) return
-    setNotes([...notes, data.createNote])
+    setNotes([data.createNote, ...notes])
     setFormState({ title: "", note: "" })
   }
 
