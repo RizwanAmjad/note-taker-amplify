@@ -40,7 +40,7 @@ function App() {
     )
 
     let nextNotes = [...notes]
-    nextNotes = nextNotes.filter((note) => note.id != id)
+    nextNotes = nextNotes.filter((note) => note.id !== data.deleteNote.id)
     setNotes(nextNotes)
   }
 
