@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { API, graphqlOperation } from "aws-amplify"
 import { listNotes } from "./graphql/queries"
-import { createNote } from "./graphql/mutations"
+import { createNote, deleteNote } from "./graphql/mutations"
 
 function App() {
   const [notes, setNotes] = useState([])
@@ -33,6 +33,16 @@ function App() {
       setNotes(data.listNotes.items)
     })
   }, [])
+
+  const handleDelete = async (id) => {
+    const { data } = await API.graphql(
+      graphqlOperation(deleteNote, { input: { id } })
+    )
+
+    let nextNotes = [...notes]
+    nextNotes = nextNotes.filter((note) => note.id != id)
+    setNotes(nextNotes)
+  }
 
   return (
     <div className="m-4  text-gray-700">
@@ -76,7 +86,7 @@ function App() {
 
       <div>
         <div className="text-lg">Notes!</div>
-        {notes.map(({ title, note }, index) => (
+        {notes.map(({ id, title, note }, index) => (
           <div
             key={index}
             className="border flex items-center justify-between  my-2 p-8 rounded-md"
@@ -86,7 +96,9 @@ function App() {
               <div>{note}</div>
             </div>
             <div>
-              <div>Del</div>
+              <div className="cursor-pointer" onClick={() => handleDelete(id)}>
+                Del
+              </div>
               <div>Edit</div>
             </div>
           </div>
