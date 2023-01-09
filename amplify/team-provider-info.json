@@ -17,6 +17,12 @@
       },
       "auth": {
         "notetakeramplifycf16a3d8": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1v7lc5js64j5s",
+          "type": "cicd"
+        }
       }
     }
   }
