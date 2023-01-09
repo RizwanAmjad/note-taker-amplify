@@ -4,10 +4,10 @@ import { withAuthenticator, Button, Heading } from "@aws-amplify/ui-react"
 import { listNotes } from "./graphql/queries"
 import { createNote, deleteNote } from "./graphql/mutations"
 
-import Note from "./graphql/components/Note"
+import Note from "./components/Note"
+import NoteInput from "./components/NoteInput"
 
 import "@aws-amplify/ui-react/styles.css"
-import NoteInput from "./graphql/components/NoteInput"
 
 function App({ signOut, user }) {
   const [notes, setNotes] = useState([])
