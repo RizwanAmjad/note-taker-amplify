@@ -1,51 +1,51 @@
-import { useEffect, useMemo, useState } from "react";
-import { API, graphqlOperation } from "aws-amplify";
-import { withAuthenticator, Button, Heading } from "@aws-amplify/ui-react";
-import { listNotes } from "./graphql/queries";
-import { createNote, deleteNote } from "./graphql/mutations";
+import { useEffect, useMemo, useState } from "react"
+import { API, graphqlOperation, Auth } from "aws-amplify"
+import { withAuthenticator, Button, Heading } from "@aws-amplify/ui-react"
+import { listNotes } from "./graphql/queries"
+import { createNote, deleteNote } from "./graphql/mutations"
 
-import "@aws-amplify/ui-react/styles.css";
+import "@aws-amplify/ui-react/styles.css"
 
 function App({ signOut, user }) {
-  const [notes, setNotes] = useState([]);
-  const [formState, setFormState] = useState({ title: "", note: "" });
+  const [notes, setNotes] = useState([])
+  const [formState, setFormState] = useState({ title: "", note: "" })
 
   const handleSubmit = async () => {
     const { data, errors } = await API.graphql(
       graphqlOperation(createNote, { input: formState })
-    );
-    if (errors) return;
-    setNotes([data.createNote, ...notes]);
-    setFormState({ title: "", note: "" });
-  };
+    )
+    if (errors) return
+    setNotes([data.createNote, ...notes])
+    setFormState({ title: "", note: "" })
+  }
 
   const handleChange = ({ target }) => {
-    const { name, value } = target;
-    let nextState = { ...formState };
-    nextState[name] = value;
+    const { name, value } = target
+    let nextState = { ...formState }
+    nextState[name] = value
 
-    setFormState(nextState);
-  };
+    setFormState(nextState)
+  }
 
   const validateForm = useMemo(() => {
-    return formState.title === "" || formState.note === "";
-  }, [formState]);
+    return formState.title === "" || formState.note === ""
+  }, [formState])
 
   useEffect(() => {
     API.graphql(graphqlOperation(listNotes)).then(({ data }) => {
-      setNotes(data.listNotes.items);
-    });
-  }, []);
+      setNotes(data.listNotes.items)
+    })
+  }, [])
 
   const handleDelete = async (id) => {
     const { data } = await API.graphql(
       graphqlOperation(deleteNote, { input: { id } })
-    );
+    )
 
-    let nextNotes = [...notes];
-    nextNotes = nextNotes.filter((note) => note.id !== data.deleteNote.id);
-    setNotes(nextNotes);
-  };
+    let nextNotes = [...notes]
+    nextNotes = nextNotes.filter((note) => note.id !== data.deleteNote.id)
+    setNotes(nextNotes)
+  }
 
   return (
     <div className="m-4  text-gray-700">
@@ -112,7 +112,7 @@ function App({ signOut, user }) {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
-export default withAuthenticator(App);
+export default withAuthenticator(App)
