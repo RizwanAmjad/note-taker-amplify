@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { API, graphqlOperation } from "aws-amplify"
 import { withAuthenticator, Button, Heading } from "@aws-amplify/ui-react"
 import { listNotes } from "./graphql/queries"
-import { createNote, deleteNote } from "./graphql/mutations"
+import { createNote, deleteNote, updateNote } from "./graphql/mutations"
 
 import Note from "./components/Note"
 import NoteInput from "./components/NoteInput"
@@ -46,6 +46,16 @@ function App({ signOut, user }) {
     setNotes(nextNotes)
   }
 
+  const handleUpdate = async (updatedData, id) => {
+    const { data } = await API.graphql(
+      graphqlOperation(updateNote, { input: { ...updatedData, id } })
+    )
+    const nextNotes = notes.map((note) =>
+      note.id === data.updateNote.id ? data.updateNote : note
+    )
+    setNotes(nextNotes)
+  }
+
   return (
     <div className="m-4  text-gray-700">
       <div className="flex items-center justify-between">
@@ -68,6 +78,7 @@ function App({ signOut, user }) {
             title={title}
             note={note}
             onDelete={handleDelete}
+            onUpdate={handleUpdate}
           />
         ))}
       </div>
