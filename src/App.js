@@ -1,10 +1,13 @@
-import { useEffect, useMemo, useState } from "react"
-import { API, graphqlOperation, Auth } from "aws-amplify"
+import { useEffect, useState } from "react"
+import { API, graphqlOperation } from "aws-amplify"
 import { withAuthenticator, Button, Heading } from "@aws-amplify/ui-react"
 import { listNotes } from "./graphql/queries"
 import { createNote, deleteNote } from "./graphql/mutations"
 
+import Note from "./graphql/components/Note"
+
 import "@aws-amplify/ui-react/styles.css"
+import NoteInput from "./graphql/components/NoteInput"
 
 function App({ signOut, user }) {
   const [notes, setNotes] = useState([])
@@ -26,10 +29,6 @@ function App({ signOut, user }) {
 
     setFormState(nextState)
   }
-
-  const validateForm = useMemo(() => {
-    return formState.title === "" || formState.note === ""
-  }, [formState])
 
   useEffect(() => {
     API.graphql(graphqlOperation(listNotes)).then(({ data }) => {
@@ -53,62 +52,23 @@ function App({ signOut, user }) {
         <Heading>{user.username}</Heading>
         <Button onClick={signOut}>SignOut</Button>
       </div>
-      <div className="text-lg">Note Taking App</div>
 
-      <div className="mt-2">
-        <div className="flex gap-2 my-2">
-          <span>Title</span>
-          <input
-            className="border px-1"
-            name="title"
-            placeholder="Title"
-            onChange={handleChange}
-            type="text"
-            value={formState.title}
-          />
-        </div>
-
-        <div className="flex gap-2 my-2">
-          <span>Note</span>
-          <input
-            className="border px-1"
-            name="note"
-            placeholder="Note"
-            type="text"
-            onChange={handleChange}
-            value={formState.note}
-          />
-        </div>
-
-        <div className="my-2">
-          <button
-            className="bg-black px-4 py-1 rounded-md text-slate-400"
-            disabled={validateForm}
-            onClick={handleSubmit}
-          >
-            Add
-          </button>
-        </div>
-      </div>
+      <NoteInput
+        formState={formState}
+        onStateChange={handleChange}
+        onSubmit={handleSubmit}
+      />
 
       <div>
         <div className="text-lg">Notes!</div>
-        {notes.map(({ id, title, note }, index) => (
-          <div
-            key={index}
-            className="border flex items-center justify-between  my-2 p-8 rounded-md"
-          >
-            <div className="flex flex-col">
-              <div className="text-xl">{title}</div>
-              <div>{note}</div>
-            </div>
-            <div>
-              <div className="cursor-pointer" onClick={() => handleDelete(id)}>
-                Del
-              </div>
-              <div>Edit</div>
-            </div>
-          </div>
+        {notes.map(({ id, title, note }) => (
+          <Note
+            key={id}
+            id={id}
+            title={title}
+            note={note}
+            onDelete={handleDelete}
+          />
         ))}
       </div>
     </div>
