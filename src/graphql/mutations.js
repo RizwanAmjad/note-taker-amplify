@@ -1,6 +1,48 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createCounts = /* GraphQL */ `
+  mutation CreateCounts(
+    $input: CreateCountsInput!
+    $condition: ModelCountsConditionInput
+  ) {
+    createCounts(input: $input, condition: $condition) {
+      id
+      user
+      count
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateCounts = /* GraphQL */ `
+  mutation UpdateCounts(
+    $input: UpdateCountsInput!
+    $condition: ModelCountsConditionInput
+  ) {
+    updateCounts(input: $input, condition: $condition) {
+      id
+      user
+      count
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteCounts = /* GraphQL */ `
+  mutation DeleteCounts(
+    $input: DeleteCountsInput!
+    $condition: ModelCountsConditionInput
+  ) {
+    deleteCounts(input: $input, condition: $condition) {
+      id
+      user
+      count
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createNote = /* GraphQL */ `
   mutation CreateNote(
     $input: CreateNoteInput!
