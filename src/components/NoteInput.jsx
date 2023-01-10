@@ -1,8 +1,12 @@
 import React, { useMemo } from "react"
 
-function NoteInput({ formState, onStateChange, onSubmit }) {
+function NoteInput({ formState, onStateChange, onChangeImage, onSubmit }) {
   const validateForm = useMemo(() => {
-    return formState.title === "" || formState.note === ""
+    return (
+      formState.image === null ||
+      formState.title === "" ||
+      formState.note === ""
+    )
   }, [formState])
 
   return (
@@ -10,6 +14,20 @@ function NoteInput({ formState, onStateChange, onSubmit }) {
       <div className="text-lg">Note Taking App</div>
 
       <div className="mt-2">
+        <div>
+          <label
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            htmlFor="image_input"
+          >
+            Upload file
+          </label>
+          <input
+            className="block text-sm text-gray-900 border border-gray-300 rounded cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            id="image_input"
+            onChange={onChangeImage}
+            type="file"
+          />
+        </div>
         <div className="flex gap-2 my-2">
           <span>Title</span>
           <input

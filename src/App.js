@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { API, graphqlOperation } from "aws-amplify"
+import { API, graphqlOperation, Storage } from "aws-amplify"
 import { withAuthenticator, Button, Heading } from "@aws-amplify/ui-react"
 import { listNotes } from "./graphql/queries"
 import { createNote, deleteNote, updateNote } from "./graphql/mutations"
@@ -11,15 +11,28 @@ import "@aws-amplify/ui-react/styles.css"
 
 function App({ signOut, user }) {
   const [notes, setNotes] = useState([])
-  const [formState, setFormState] = useState({ title: "", note: "" })
+  const [formState, setFormState] = useState({
+    title: "",
+    note: "",
+    image: null,
+  })
 
   const handleSubmit = async () => {
+    const { title, note, image } = formState
+    const { key } = await Storage.put(image.name, image)
+
     const { data, errors } = await API.graphql(
-      graphqlOperation(createNote, { input: formState })
+      graphqlOperation(createNote, {
+        input: { title, note, image: key },
+      })
     )
     if (errors) return
     setNotes([data.createNote, ...notes])
-    setFormState({ title: "", note: "" })
+    setFormState({ title: "", note: "", image: null })
+  }
+
+  const handleChangeImage = ({ target }) => {
+    setFormState({ ...formState, image: target.files[0] })
   }
 
   const handleChange = ({ target }) => {
@@ -66,6 +79,7 @@ function App({ signOut, user }) {
       <NoteInput
         formState={formState}
         onStateChange={handleChange}
+        onChangeImage={handleChangeImage}
         onSubmit={handleSubmit}
       />
 

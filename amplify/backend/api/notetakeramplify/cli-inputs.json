@@ -9,7 +9,12 @@
       "apiKeyExpirationDate": "2023-01-16T06:38:30.202Z",
       "keyDescription": "rizwann"
     },
-    "additionalAuthTypes": [],
+    "additionalAuthTypes": [
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authnotetakeramplifycf16a3d8"
+      }
+    ],
     "conflictResolution": {}
   }
 }

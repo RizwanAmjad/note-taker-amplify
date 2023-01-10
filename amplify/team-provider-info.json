@@ -23,6 +23,9 @@
           "appId": "d1v7lc5js64j5s",
           "type": "cicd"
         }
+      },
+      "storage": {
+        "notetaker": {}
       }
     }
   }

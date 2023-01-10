@@ -1,0 +1,13 @@
+{
+  "resourceName": "notetaker",
+  "policyUUID": "d6afa61d",
+  "bucketName": "notetakeramplify697ab797b84347a0a78d5df064d470b",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "groupAccess": {}
+}
