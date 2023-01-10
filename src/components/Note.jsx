@@ -1,8 +1,10 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { Storage } from "aws-amplify"
 
-function Note({ id, title, note, onDelete, onUpdate }) {
+function Note({ id, title, note, image, onDelete, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false)
   const [formState, setFormState] = useState({ title, note })
+  const [imageUrl, setImageUrl] = useState()
 
   const handleChange = ({ target }) => {
     const { name, value } = target
@@ -11,6 +13,10 @@ function Note({ id, title, note, onDelete, onUpdate }) {
 
     setFormState(nextState)
   }
+
+  useEffect(() => {
+    Storage.get(image).then((img) => setImageUrl(img))
+  }, [])
 
   return (
     <div className="border flex items-center justify-between my-2 p-8 rounded-md">
@@ -47,9 +53,14 @@ function Note({ id, title, note, onDelete, onUpdate }) {
         </>
       ) : (
         <>
-          <div className="flex flex-col">
-            <div className="text-xl">{title}</div>
-            <div>{note}</div>
+          <div className="flex items-center gap-8">
+            <div className="h-full w-28 rounded overflow-hidden">
+              <img src={imageUrl} />
+            </div>
+            <div className="flex flex-col">
+              <div className="text-xl">{title}</div>
+              <div>{note}</div>
+            </div>
           </div>
           <div>
             <div className="cursor-pointer" onClick={() => onDelete(id)}>

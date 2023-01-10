@@ -85,12 +85,13 @@ function App({ signOut, user }) {
 
       <div>
         <div className="text-lg">Notes!</div>
-        {notes.map(({ id, title, note }) => (
+        {notes.map(({ id, title, note, image }) => (
           <Note
             key={id}
             id={id}
             title={title}
             note={note}
+            image={image}
             onDelete={handleDelete}
             onUpdate={handleUpdate}
           />
