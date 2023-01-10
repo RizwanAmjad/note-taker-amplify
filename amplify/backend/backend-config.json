@@ -60,6 +60,22 @@
       "service": "Cognito"
     }
   },
+  "function": {
+    "notetakercount": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput"
+          ],
+          "category": "api",
+          "resourceName": "notetakeramplify"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "hosting": {
     "amplifyhosting": {
       "lastPushTimeStamp": "2023-01-09T06:47:31.443Z",
@@ -68,6 +84,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_notetakercount_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notetakercount"
+        }
+      ]
+    },
+    "AMPLIFY_function_notetakercount_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "notetakercount"
+        }
+      ]
+    },
     "AMPLIFY_hosting_amplifyhosting_appId": {
       "usedBy": [
         {

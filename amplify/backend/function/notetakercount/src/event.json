@@ -1,0 +1,49 @@
+{
+  "Records": [
+    {
+      "eventID": "5287ff055b92633a83f4982db16e1bf9",
+      "eventName": "INSERT",
+      "eventVersion": "1.1",
+      "eventSource": "aws:dynamodb",
+      "awsRegion": "us-east-1",
+      "dynamodb": {
+        "ApproximateCreationDateTime": 1673345528,
+        "Keys": {
+          "id": {
+            "S": "e6507a16-c961-4ae7-bc9f-33bd21404eb2"
+          }
+        },
+        "NewImage": {
+          "owner": {
+            "S": "04a3c2d0-12ac-47e0-99ea-0d580050ff5e::04a3c2d0-12ac-47e0-99ea-0d580050ff5e"
+          },
+          "createdAt": {
+            "S": "2023-01-10T10:12:07.774Z"
+          },
+          "image": {
+            "S": "tyler-clemmensen-Zs_L-plsZzg-unsplash.jpg"
+          },
+          "note": {
+            "S": "ooo"
+          },
+          "__typename": {
+            "S": "Note"
+          },
+          "id": {
+            "S": "e6507a16-c961-4ae7-bc9f-33bd21404eb2"
+          },
+          "title": {
+            "S": "o"
+          },
+          "updatedAt": {
+            "S": "2023-01-10T10:12:07.774Z"
+          }
+        },
+        "SequenceNumber": "18608700000000027134182148",
+        "SizeBytes": 294,
+        "StreamViewType": "NEW_AND_OLD_IMAGES"
+      },
+      "eventSourceARN": "arn:aws:dynamodb:us-east-1:072748911387:table/Note-lcmtm52npzcepj6zdbvtdudc7u-dev/stream/2023-01-06T08:13:30.306"
+    }
+  ]
+}
