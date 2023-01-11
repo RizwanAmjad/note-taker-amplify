@@ -16,7 +16,7 @@ function Note({ id, title, note, image, onDelete, onUpdate }) {
 
   useEffect(() => {
     Storage.get(image).then((img) => setImageUrl(img))
-  }, [])
+  }, [image])
 
   return (
     <div className="border flex items-center justify-between my-2 p-8 rounded-md">
@@ -55,7 +55,7 @@ function Note({ id, title, note, image, onDelete, onUpdate }) {
         <>
           <div className="flex items-center gap-8">
             <div className="h-full w-28 rounded overflow-hidden">
-              <img src={imageUrl} />
+              <img src={imageUrl} alt={title} />
             </div>
             <div className="flex flex-col">
               <div className="text-xl">{title}</div>
