@@ -12,39 +12,45 @@ const { DynamoDB } = require("aws-sdk")
 
 const ddb = new DynamoDB.DocumentClient()
 
+async function incrementCount(owner, count) {
+  try {
+    await ddb
+      .update({
+        TableName: process.env.API_NOTETAKERAMPLIFY_COUNTSTABLE_NAME,
+        Key: {
+          id: owner,
+        },
+        UpdateExpression: "set #count = #count + :num",
+        ExpressionAttributeNames: {
+          "#count": "count",
+        },
+        ExpressionAttributeValues: {
+          ":num": count,
+        },
+      })
+      .promise()
+  } catch (err) {
+    await ddb
+      .put({
+        TableName: process.env.API_NOTETAKERAMPLIFY_COUNTSTABLE_NAME,
+        Item: {
+          id: owner,
+          owner: owner,
+          count: 1,
+        },
+      })
+      .promise()
+  }
+}
+
 exports.handler = async (event) => {
   const record = event.Records[0]
-  if (record.eventName === "INSERT") {
-    const image = record.dynamodb.NewImage
+  const image = record.dynamodb
 
-    try {
-      await ddb
-        .update({
-          TableName: process.env.API_NOTETAKERAMPLIFY_COUNTSTABLE_NAME,
-          Key: {
-            id: image.owner.S,
-          },
-          UpdateExpression: "set #count = #count + :num",
-          ExpressionAttributeNames: {
-            "#count": "count",
-          },
-          ExpressionAttributeValues: {
-            ":num": 1,
-          },
-        })
-        .promise()
-    } catch (err) {
-      await ddb
-        .put({
-          TableName: process.env.API_NOTETAKERAMPLIFY_COUNTSTABLE_NAME,
-          Item: {
-            id: image.owner.S,
-            owner: image.owner.S,
-            count: 1,
-          },
-        })
-        .promise()
-    }
+  if (record.eventName === "REMOVE") {
+    await incrementCount(image.OldImage.owner.S, -1)
+  } else if (record.eventName === "INSERT") {
+    await incrementCount(image.NewImage.owner.S, 1)
   }
   return Promise.resolve("Successfully processed DynamoDB record")
 }

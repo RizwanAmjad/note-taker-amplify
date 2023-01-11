@@ -30,7 +30,7 @@
       "function": {
         "notetakercount": {
           "deploymentBucketName": "amplify-notetakeramplify-dev-130617-deployment",
-          "s3Key": "amplify-builds/notetakercount-36365258685130644779-build.zip"
+          "s3Key": "amplify-builds/notetakercount-472f453741527835346f-build.zip"
         }
       }
     }
